@@ -27,7 +27,7 @@ services:
     command: --max-allowed-packet=64MB
     restart: always
     volumes:
-      - db-data:/var/lib/mysql:Z
+      - db-data:/var/lib/mysql
     environment:
       MARIADB_AUTO_UPGRADE: "1"
       MARIADB_DATABASE: matomo
@@ -41,7 +41,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-      start_period: 30s
+      start_period: 60s
     networks:
       - matomo-internal
 
@@ -57,7 +57,7 @@ services:
     ports:
       - "${MATOMO_PORT:-8080}:80"
     volumes:
-      - matomo-data:/var/www/html:z
+      - matomo-data:/var/www/html
     environment:
       # Database connection
       MATOMO_DATABASE_HOST: db
@@ -93,7 +93,7 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - matomo-data:/var/www/html:z
+      - matomo-data:/var/www/html
     environment:
       MATOMO_DATABASE_HOST: db
       MATOMO_DATABASE_PORT: "3306"
