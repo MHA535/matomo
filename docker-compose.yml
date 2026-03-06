@@ -32,15 +32,15 @@ services:
       MARIADB_AUTO_UPGRADE: "1"
       MARIADB_DATABASE: matomo
       MARIADB_USER: matomo
-      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD:-matomo_secure_pw_2026}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-matomo_root_pw_2026}
       MARIADB_DISABLE_UPGRADE_BACKUP: "1"
       MARIADB_INITDB_SKIP_TZINFO: "1"
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+      interval: 10s
+      timeout: 5s
+      retries: 12
       start_period: 60s
     networks:
       - matomo-internal
@@ -65,7 +65,7 @@ services:
       MATOMO_DATABASE_ADAPTER: mysql
       MATOMO_DATABASE_TABLES_PREFIX: matomo_
       MATOMO_DATABASE_USERNAME: matomo
-      MATOMO_DATABASE_PASSWORD: ${MARIADB_PASSWORD}
+      MATOMO_DATABASE_PASSWORD: ${MARIADB_PASSWORD:-matomo_secure_pw_2026}
       MATOMO_DATABASE_DBNAME: matomo
       # PHP settings
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT:-512M}
@@ -100,7 +100,7 @@ services:
       MATOMO_DATABASE_ADAPTER: mysql
       MATOMO_DATABASE_TABLES_PREFIX: matomo_
       MATOMO_DATABASE_USERNAME: matomo
-      MATOMO_DATABASE_PASSWORD: ${MARIADB_PASSWORD}
+      MATOMO_DATABASE_PASSWORD: ${MARIADB_PASSWORD:-matomo_secure_pw_2026}
       MATOMO_DATABASE_DBNAME: matomo
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT:-512M}
     entrypoint: /bin/bash
